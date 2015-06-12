@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta id="viewport" name="viewport" content="width=640,target-densitydpi=device-dpi,user-scalable=no" />
+    <title></title>
+    <script src="js/lib/jquery-1.9.1.min.js"></script>
+    <script src="js/lib/exif.js"></script>
+    <script src="js/uploadModule.js"></script>
+    <script>
+        $(function(){
+            //实例化uploadModule
+            //调用config对象配置参数，el:upload input标签的id名，imgH：返回压缩过后的图片流高度，如果图片是横向的，该参数为返回宽度，quality: 图片压缩质量，0-1之间，默认0.7
+            //实例化后调用upload方法，有一个回调函数，回调函数的参数imgData即压缩过后的图片信息，{img:图片流, pos: 0为横向图片，1为纵向图片}
+            var upload = new uploadModule();
+            upload.config = {
+                el: '#uploadInput',
+                imgH: 500,
+                quality: 0.7,
+                debug: true,
+                debugType: 0
+            };
+            upload.upload(function(imgData){
+                $('#showImg').attr('src',imgData.img);
+//                var canvas = document.getElementById('testCanvas');
+//                var ctx = canvas.getContext('2d');
+//                var img = new Image();
+//                img.src = imgData.img;
+//                img.onload = function(){
+//                    canvas.width = 200;
+//                    canvas.height = 200;
+//                    ctx.drawImage(img, 0, 0, 200, 200);
+//                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <input id="uploadInput" class="uploadInput" type="file" accept="image/*" capture="camera"/>
+    <img src="" id="showImg"/>
+    <canvas id="testCanvas"></canvas>
+</body>
+</html>
