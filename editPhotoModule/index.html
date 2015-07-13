@@ -1,6 +1,8 @@
+<!--v0.1-->
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta id="viewport" name="viewport" content="width=640,target-densitydpi=device-dpi,user-scalable=no" />
     <title></title>
     <script src="js/lib/jquery-1.9.1.min.js"></script>
@@ -8,288 +10,52 @@
     <script src="js/editPhotoModule.js"></script>
     <script>
         $(function(){
-            var rotation = 0;
-            var scale = 1;
-            var x,y;
-            var tempX,tempY;
-            var panFlag = true;
-            var canvas=document.getElementById("photoCanvas");
-            var ctx=canvas.getContext("2d");
-            var img = new Image();
-            img.src = 'images/1.jpg';
-            img.onload = function(){
-                var xPos = canvas.width / 2;
-                var yPos = canvas.height / 2;
-
-                ctx.clearRect(-1500,-1500,3000,3000);
-                ctx.save();
-                ctx.translate(xPos, yPos);
-                ctx.rotate(0 * Math.PI / 180);
-                ctx.translate(-xPos, -yPos);
-                ctx.drawImage(img, xPos - img.width / 2, yPos - img.height / 2);
-                ctx.restore();
-
-//                var s = 0.5;
-//                $('#btn').on('mousemove', function(){
-//                    console.log(yPos - img.height / 2);
-//                    rotation++;
-//                    s += 0.1;
-//                    ctx.clearRect(-800,-800,1600,1600);
-//                    ctx.save();
-//                    ctx.translate(xPos, yPos);
-////                    if(rotation > -100 && rotation < 100){
-////                        ctx.rotate(rotation * Math.PI / 180);
-////                    }
-//                    ctx.translate(-xPos, -yPos);
-//                    ctx.drawImage(img, xPos - img.width / 2+(img.width /2) * (1-s), yPos - img.height / 2+(img.height /2) * (1-s), img.width * s, img.height * s);
-////                ctx.drawImage(img, _top*scale, _left*scale, _width*scale, _height*scale);
-//                    ctx.restore();
-//                });
-                var flag;
-                var _scale;
-                var editPhotoPanel = document.getElementById('editPhotoPanel');
-                var mc = new Hammer.Manager(editPhotoPanel);
-                var pan = new Hammer.Pan();
-                var pinch = new Hammer.Pinch();
-                var rotate = new Hammer.Rotate();
-                pinch.recognizeWith(rotate);
-                mc.add([pan, pinch]);
-                mc.off("pinch");
-                mc.on("pinchmove", function(e) {
-//                    $('#msg').html(e.rotation);
-
-                    if(e.rotation >= 0 && e.rotation <= 180){
-                        flag = 1;
-                    }else if(e.rotation > 180 && e.rotation < 360){
-                        flag = 2;
-                    }else if(e.rotation < 0 && e.rotation >= -180){
-                        flag = 3;
-                    }else if(e.rotation < -180 && e.rotation > -360){
-                        flag = 4;
-                    }
-                    ctx.clearRect(-1500,-1500,3000,3000);
-                    ctx.save();
-                    ctx.translate(xPos, yPos);
-                    ctx.rotate((e.rotation + rotation) * Math.PI / 180);
-                    ctx.translate(-xPos, -yPos);
-
-
-                    _scale = e.scale-1+scale;
-                    if(_scale < 0.5){
-                        _scale = 0.5;
-                    }else if(_scale > 1.5){
-                        _scale = 1.5
-                    }
-                    $('#msg').html(_scale);
-                    ctx.drawImage(img, xPos - img.width / 2+(img.width /2) * (1-_scale), yPos - img.height / 2+(img.height /2) * (1-_scale), img.width * _scale, img.height * _scale);
-                    ctx.restore();
-                });
-                mc.on('pinchend', function(e){
-                    if(flag == 1){
-                        if(e.rotation >= 180){
-                            rotation = rotation + e.rotation - 180;
-                        }else if(e.rotation < 0){
-                            rotation = rotation + e.rotation + 180;
-                        }else{
-                            rotation = rotation + e.rotation;
-                        }
-                    }else if(flag == 2){
-                        if(e.rotation <= 180){
-                            rotation = rotation + e.rotation + 180;
-                        }else{
-                            rotation = rotation + e.rotation;
-                        }
-                    }else if(flag == 3){
-                        if(e.rotation >= 0){
-                            rotation = rotation + e.rotation - 180;
-                        }else{
-                            rotation = rotation + e.rotation
-                        }
-                    }else if(flag == 4){
-                        if(e.rotation > -180){
-                            rotation = rotation + e.rotation - 180;
-                        }else{
-                            rotation = rotation + e.rotation
-                        }
-                    }
-
-                    if(e.scale - 1 + scale < 0.5){
-                        scale = 0.5;
-                    }else if(e.scale - 1 + scale > 1.5){
-                        scale = 1.5;
-                    }else{
-                        scale = e.scale - 1 + scale;
-                    }
-
-
-                    $('#msg').html('end:'+scale);
-                });
-
-                mc.on("panmove", function(e) {
-                    $('#msg').html('pan');
-                    if(panFlag){
-                        tempX = e.deltaX < 0 ? -11 : 11;
-                        tempY = e.deltaY < 0 ? -11 : 11;
-                        panFlag = false;
-                    }
-                    x = e.deltaX - tempX;
-                    y = e.deltaY - tempY;
-                    ctx.clearRect(-1500,-1500,3000,3000);
-                    ctx.translate(x,y);
-                    ctx.save();
-                    ctx.translate(xPos, yPos);
-                    ctx.rotate(rotation * Math.PI / 180);//旋转47度
-                    ctx.translate(-xPos, -yPos);
-                    ctx.drawImage(img, xPos - img.width / 2+(img.width /2) * (1-(scale)), yPos - img.height / 2+(img.height /2) * (1-(scale)), img.width * (scale), img.height * (scale));
-                    ctx.restore();
-
-                    tempX = e.deltaX;
-                    tempY = e.deltaY;
-                })
-                mc.on('panend', function(e){
-                    panFlag = true;
-                });
-
-
-
-
-//                var tempX,tempY;
-//                var panFlag = true;
-//                ctx.clearRect(-500,-722,1000,1444);//x2 是为了把原来的图全部抹掉（不留下痕迹）
-//                ctx.rotate(90*Math.PI/180);
-//                ctx.drawImage(img, -250, -361, 500, 722);
-//
-//                var editPhotoPanel = document.getElementById('editPhotoPanel');
-//                var mc = new Hammer.Manager(editPhotoPanel);
-//                var pan = new Hammer.Pan();
-//                mc.add([pan]);
-//                mc.on("panmove", function(e) {
-//                    if(panFlag){
-//                        tempX = e.deltaX < 0 ? -32 : 32;
-//                        tempY = e.deltaY < 0 ? -32 : 32;
-//                        panFlag = false;
-//                    }
-//                    ctx.clearRect(-500,-722,1000,1444);//x2 是为了把原来的图全部抹掉（不留下痕迹）
-//                    ctx.drawImage(img, -250, -361, 500, 722);
-//
-//                    ctx.translate(e.deltaY -tempY,tempX - e.deltaX);
-//                    tempX = e.deltaX;
-//                    tempY = e.deltaY;
-//                    console.log(e.deltaX);
-//                });
-//                mc.on('panend', function(e){
-//                    panFlag = true;
-//                });
-
-
-//                var tempX,tempY;
-//                var panFlag = true;
-//                var _top = -250,_left = -361,_width = 500,_height = 722;
-//                myPan(_top,_left,_width,_height);
-//                var editPhotoPanel = document.getElementById('editPhotoPanel');
-//                var mc = new Hammer.Manager(editPhotoPanel);
-//                var pan = new Hammer.Pan();
-//                var pinch = new Hammer.Pinch();
-//                var rotate = new Hammer.Rotate();
-//                pinch.recognizeWith(rotate);
-//                mc.add([pinch]);
-//                mc.on("panmove", function(e) {
-//                    if(panFlag){
-//                        tempX = e.deltaX < 0 ? -32 : 32;
-//                        tempY = e.deltaY < 0 ? -32 : 32;
-//                        panFlag = false;
-//                    }
-//                    ctx.rotate(2*Math.PI/180);
-//                    ctx.translate(e.deltaX - tempX,e.deltaY - tempY);
-//                    myPan(_top,_left,_width,_height);
-//                    tempX = e.deltaX;
-//                    tempY = e.deltaY;
-//                });
-//                mc.on('panend', function(e){
-//                    panFlag = true;
-//                });
-
-//                mc.on("pinch", function(e) {
-//                    myPinch(e.scale,_top,_left,_width,_height,e.rotation);
-////                    myRotate(e.rotation);
-////                    editPhotoPanel.textContent += e.rotation + '\n';
-//                });
-//                mc.on('pinchend', function(e){
-//                    _top = _top*e.scale;
-//                    _left = _left*e.scale;
-//                    _width = _width*e.scale;
-//                    _height = _height*e.scale;
-//                });
-
-
+            //实例化editPhotoModule
+            //调用config对象配置参数，minScale:图片最小缩放比，maxScale：图片最大缩放比，operateEl: 拖动缩放图片的控制元素id，就是一个div，位于最高层，
+            //canvasEl:绘制图片canvas元素id，debug: 检测元素是否存在，默认为false，debugType: debug打印形式，0为console，1位alert
+            //实例化后调用operate方法，有一个参数为图片地址或者图片流二进制数据，可以结合uploadModule模块同时使用
+            var edit = new editPhotoModule();
+            edit.config = {
+                minScale: 0.5,
+                maxScale: 1.5,
+                operateEl: 'uploadTpl',
+                canvasEl: 'photoCanvas',
+                debug: true,
+                debugType: 0
             }
-
-//            function myPan(_top,_left,_width,_height)
-//            {
-//                ctx.clearRect(-500,-722,1000,1444);//x2 是为了把原来的图全部抹掉（不留下痕迹）
-//                ctx.drawImage(img, _top, _left, _width, _height);
-//            }
-
-//            function myPinch(scale,_top,_left,_width,_height,rotation){
-//                ctx.clearRect(-800,-800,1600,1600);
-//                ctx.save();
-//                ctx.translate(canvas.width/2,canvas.height/2);
-//                if(rotation > -100 && rotation < 100){
-//                    ctx.rotate((rotation)*Math.PI/180);
-//                }
-//                ctx.translate(-canvas.width/2,-canvas.height/2);
-//                ctx.drawImage(img, canvas.width/2 - img.width / 2, canvas.height/2 - img.height / 2);
-////                ctx.drawImage(img, _top*scale, _left*scale, _width*scale, _height*scale);
-//                ctx.restore();
-//            }
-
-
-
-
-
-//            function myRotate(rotation){
-//                if(rotation > -100 && rotation < 100){
-//                ctx.clearRect(-500,-722,1000,1444);
-//                ctx.rotate((rotation/90*2)*Math.PI/180);
-//                }
-//                ctx.drawImage(img, -250, -361, 500, 722);
-//                $('#msg').html(90*Math.PI/180);
-//                $('#msg').html(rotation);
-//            }
-
+            edit.operate('images/2.jpg');
         });
     </script>
     <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
         #editPhotoPanel{
             position: absolute;
-            width: 518px;
-            height: 740px;
+            width: 519px;
+            height: 741px;
             left: 61px;
             top: 100px;
-            background: green;
+            background: yellow;
         }
         #editPhotoPanel canvas{
             position: absolute;
-            width: 500px;
-            height: 722px;
-            background: yellow;
-            left: 9px;
-            top: 9px;
         }
-        #btn{
+        #editPhotoPanel .uploadTpl{
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background: green;
-            bottom: 20px;
+            width: 519px;
+            height: 741px;
+            z-index: 10;
+            background: blue;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
-<div id="msg">0</div>
 <div id="editPhotoPanel">
-    <canvas id="photoCanvas" width="500" height="722"></canvas>
+    <div id="uploadTpl" class="uploadTpl"></div>
+    <canvas class="photoCanvas" id="photoCanvas" width="519" height="741"></canvas>
 </div>
-<div id="btn"></div>
 </body>
 </html>
