@@ -1,4 +1,4 @@
-//ver 0.2
+//ver 0.2.1
 var uploadModule = function(){
     return{
         config: {
@@ -75,7 +75,7 @@ var uploadModule = function(){
                                         canvas.height = tmpcanvasH = canvasH;
                                         if (3260 < imgW || imgH > 2440) {
                                             if ((that.versions.iosv).indexOf(8) == 1) {
-                                                ctx.drawImage(img, 0, 0, imgNw, imgNh);
+                                                ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                             } else {
                                                 ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                             }
@@ -95,7 +95,7 @@ var uploadModule = function(){
 
                                         if (3260 < imgH || imgW > 2440) {
                                             if ((that.versions.iosv).indexOf(8) == 1) {
-                                                ctx.drawImage(img, 0, 0, imgNw, imgNh);
+                                                ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                             } else {
                                                 ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                             }
@@ -120,7 +120,7 @@ var uploadModule = function(){
                                         ctx.rotate(180 * Math.PI / 180);
                                         if (3260 < imgW || imgH > 2440) {
                                             if ((that.versions.iosv).indexOf(8) == 1) {
-                                                ctx.drawImage(img, 0, 0, imgNw, imgNh);
+                                                ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                             } else {
                                                 ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                             }
@@ -140,7 +140,7 @@ var uploadModule = function(){
 
                                         if (3260 < imgH || imgW > 2440) {
                                             if ((that.versions.iosv).indexOf(8) == 1) {
-                                                ctx.drawImage(img, 0, 0, imgNw, imgNh);
+                                                ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                             } else {
                                                 ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                             }
@@ -165,7 +165,7 @@ var uploadModule = function(){
 
                                     if (3260 < imgW || imgH > 2440) {
                                         if ((that.versions.iosv).indexOf(8) == 1) {
-                                            ctx.drawImage(img, imgLeft, imgTop, imgNw, imgNw);
+                                            ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                         } else {
                                             ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                         }
@@ -189,7 +189,7 @@ var uploadModule = function(){
 
                                     if (3260 < imgW || imgH > 2440) {
                                         if ((that.versions.iosv).indexOf(8) == 1) {
-                                            ctx.drawImage(img, 0, 0, imgNw, imgNw);
+                                            ctx.drawImage(img, 0, 0, imgW, imgH, 0, 0, imgNw, imgNh);
                                         } else {
                                             ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, 0, 0, imgNw, imgNh);
                                         }

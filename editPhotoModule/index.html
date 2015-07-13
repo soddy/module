@@ -21,7 +21,7 @@
                 var xPos = canvas.width / 2;
                 var yPos = canvas.height / 2;
 
-                ctx.clearRect(-800,-800,1600,1600);
+                ctx.clearRect(-1500,-1500,3000,3000);
                 ctx.save();
                 ctx.translate(xPos, yPos);
                 ctx.rotate(0 * Math.PI / 180);
@@ -67,7 +67,7 @@
                     }else if(e.rotation < -180 && e.rotation > -360){
                         flag = 4;
                     }
-                    ctx.clearRect(-800,-800,1600,1600);
+                    ctx.clearRect(-1500,-1500,3000,3000);
                     ctx.save();
                     ctx.translate(xPos, yPos);
                     ctx.rotate((e.rotation + rotation) * Math.PI / 180);
@@ -77,6 +77,8 @@
                     _scale = e.scale-1+scale;
                     if(_scale < 0.5){
                         _scale = 0.5;
+                    }else if(_scale > 1.5){
+                        _scale = 1.5
                     }
                     $('#msg').html(_scale);
                     ctx.drawImage(img, xPos - img.width / 2+(img.width /2) * (1-_scale), yPos - img.height / 2+(img.height /2) * (1-_scale), img.width * _scale, img.height * _scale);
@@ -113,6 +115,8 @@
 
                     if(e.scale - 1 + scale < 0.5){
                         scale = 0.5;
+                    }else if(e.scale - 1 + scale > 1.5){
+                        scale = 1.5;
                     }else{
                         scale = e.scale - 1 + scale;
                     }
@@ -130,7 +134,7 @@
                     }
                     x = e.deltaX - tempX;
                     y = e.deltaY - tempY;
-                    ctx.clearRect(-800,-800,1600,1600);
+                    ctx.clearRect(-1500,-1500,3000,3000);
                     ctx.translate(x,y);
                     ctx.save();
                     ctx.translate(xPos, yPos);
